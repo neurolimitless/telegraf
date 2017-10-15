@@ -1,11 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppRouter from './routes'
+import {browserHistory} from 'react-router';
+import {Router} from "express";
 
-const title = 'Hello, World!';
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>Hello</h1>
+            </div>
+        );
+    }
+}
+
+function createHistory() {
+    return browserHistory;
+}
 
 ReactDOM.render(
-<div>{title}</div>,
-document.getElementById('app')
-);
-
-module.hot.accept();
+    <Router history={createHistory()}>
+        {AppRouter}
+    </Router>);
+document.getElementById('app');
+export default App;
