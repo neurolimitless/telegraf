@@ -2,54 +2,36 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: './src/index.js',
-    devtool: 'inline-source-map',
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
+        path: path.join(__dirname, '/dist'),
+        filename: 'bundle.js',
+        publicPath: '/dist'
     },
-    resolve: {
-        extensions: ['*', '.js', '.jsx']
-    },
+
+    target: 'node',
+    externals: [nodeExternals()],
+
     module: {
-        loaders: [{
-            test: /\.css$/,
-            use: [
-                'style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                        modules: true,
-                        importLoaders: 1,
-                        localIdentName: "[local]__[hash:base64:5]",
-                        minimize: false
-                    }
-                },
-                {loader: 'postcss-loader'},
-            ]
-        }, {
-            test: /\.js$/,
-            loaders: ['react-hot-loader/webpack'],
-            include: path.join(__dirname, 'src')
-        }, {
-            test: /.jsx?$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/,
-        }]
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            },
+        ]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.LoaderOptionsPlugin({options: {postcss: [precss, autoprefixer]}}),
     ],
     devServer: {
-        contentBase: './dist',
-        hot: true,
-    },
-    node: {
-        fs: 'empty'
-    },
-    target: 'node',
+        contentBase: '/'
+    }
 };

@@ -21,6 +21,6 @@ function createHistory() {
 ReactDOM.render(
     <Router history={createHistory()}>
         {AppRouter}
-    </Router>);
-document.getElementById('app');
+    </Router>,document.getElementById('app'));
+
 export default App;
