@@ -1,7 +1,6 @@
 import React from 'react';
 
-class Login extends React.Component {
-
+export default class Login extends React.Component {
     render() {
         return (
             <div id="login-container">
@@ -17,5 +16,3 @@ class Login extends React.Component {
         );
     }
 }
-
-export default Login
